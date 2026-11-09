@@ -2,8 +2,6 @@
 
 Run `20261109_doc_core`, 2026-11-09. Complete outputs are in [`outputs/20261109_doc_core/`](outputs/20261109_doc_core/).
 
-An earlier run on a different list of 12 questions is in this repository's Git history (up to commit `db0f2fc`). This list replaces it completely.
-
 ## Summary
 
 The baseline runs end to end. All 320 requests (20 questions × 8 input conditions × 2 models) finished normally and produced one answer letter each. The job took 21 minutes on two H100 GPUs.
