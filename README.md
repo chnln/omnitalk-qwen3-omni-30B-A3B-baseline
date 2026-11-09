@@ -41,7 +41,7 @@ uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -r requirements.lock.txt
 ```
 
-On a SLURM cluster, `slurm/build_env.sbatch` does the same in a job. Compiling and installing need no GPU.
+On a SLURM cluster, `sbatch --partition=<cpu or build partition> --account=<account> slurm/build_env.sbatch /path/to/new/venv` does the same in a job. It needs no GPU.
 
 **2. Weights.** Download the two checkpoints into your Hugging Face cache. The config pins the revisions used for RESULTS.md; the snapshot downloaded must match them, or change `revision:` in the config.
 
@@ -67,11 +67,11 @@ cp slurm/site.env.example slurm/site.env   # then edit; this file stays out of G
 **On SLURM.** Run from the repository root with your own partition and account. Partition and account deliberately do not appear in the job script.
 
 ```bash
-SUBSET=smoke MODELS=instruct RUN_ID=smoke sbatch --partition=<gpu partition> --account=<account> --time=00:45:00 slurm/run_baseline.sbatch
+sbatch --partition=<gpu partition> --account=<account> --time=00:45:00 slurm/run_baseline.sbatch smoke instruct smoke_run
 sbatch --partition=<gpu partition> --account=<account> slurm/run_baseline.sbatch
 ```
 
-`SUBSET` selects questions (`smoke` has 3, `core` has 12). `MODELS` is a space-separated list of keys under `models:`. `CONDITIONS` limits conditions (comma-separated). `RUN_ID` names the output directory. Each model loads once, which takes about 5 to 13 minutes; the 96 requests per model then take a few minutes.
+The arguments are, in order: the subset (`smoke` has 3 questions, `core` has 12; default `core`), a quoted space-separated list of keys under `models:` (default `"instruct thinking"`), the run id that names the output directory, and comma-separated conditions (default all). Each model loads once, which takes about 5 to 13 minutes; the 96 requests per model then take a few minutes.
 
 **Without SLURM.** Run from the repository root, with the variables from `slurm/site.env` exported:
 

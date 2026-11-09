@@ -1,6 +1,6 @@
 #!/bin/bash -l
 # Build the Python environment from requirements.lock.txt. No GPU needed. Submit from the repository root:
-#   OMNITALK_VENV=/path/to/venv sbatch --partition=<cpu or build partition> --account=<account> slurm/build_env.sbatch
+#   sbatch --partition=<cpu or build partition> --account=<account> slurm/build_env.sbatch /path/to/new/venv
 #SBATCH --job-name=omnitalk-build-env
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -10,7 +10,7 @@
 
 set -euo pipefail
 cd "${SLURM_SUBMIT_DIR:?submit this script with sbatch from the repository root}"
-VENV="${OMNITALK_VENV:?set OMNITALK_VENV to the directory of the new virtual environment}"
+VENV="${1:?give the directory of the new virtual environment as the first argument}"
 
 uv venv --python 3.12 "$VENV"
 uv pip install --python "$VENV/bin/python" -r requirements.lock.txt

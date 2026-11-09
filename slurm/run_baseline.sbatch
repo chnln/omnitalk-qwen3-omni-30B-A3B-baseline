@@ -1,7 +1,7 @@
 #!/bin/bash -l
 # Run the baseline on one GPU node. Submit from the repository root, with your own partition and account:
-#   sbatch --partition=<gpu partition> --account=<account> slurm/run_baseline.sbatch
-# Settings (exported variables): SUBSET (default core), MODELS (default "instruct thinking"), CONDITIONS, RUN_ID.
+#   sbatch --partition=<gpu partition> --account=<account> slurm/run_baseline.sbatch [subset] [models] [run_id] [conditions]
+# Defaults: subset core, models "instruct thinking", run id <date>_<subset>_<job id>, all conditions.
 #SBATCH --job-name=omnitalk-qwen3-omni
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -12,15 +12,16 @@
 
 set -uo pipefail
 cd "${SLURM_SUBMIT_DIR:?submit this script with sbatch from the repository root}"
-source "${OMNITALK_SITE_ENV:-slurm/site.env}"
+source slurm/site.env
 
-SUBSET="${SUBSET:-core}"
-MODELS="${MODELS:-instruct thinking}"
-RUN_ID="${RUN_ID:-$(date +%Y%m%d)_${SUBSET}_${SLURM_JOB_ID}}"
+SUBSET="${1:-core}"
+MODELS="${2:-instruct thinking}"
+RUN_ID="${3:-$(date +%Y%m%d)_${SUBSET}_${SLURM_JOB_ID}}"
+CONDITIONS="${4:-}"
 OUT="outputs/${RUN_ID}"
 mkdir -p "$OUT"
 EXTRA=()
-if [ -n "${CONDITIONS:-}" ]; then
+if [ -n "$CONDITIONS" ]; then
   EXTRA+=(--conditions "$CONDITIONS")
 fi
 
