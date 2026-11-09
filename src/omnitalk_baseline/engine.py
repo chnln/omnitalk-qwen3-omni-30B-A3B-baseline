@@ -5,8 +5,9 @@ import time
 import traceback
 
 PAD_TOKENS = {"video": "<|video_pad|>", "audio": "<|audio_pad|>", "image": "<|image_pad|>"}
-# vLLM pads the audio to a multiple of the 160-sample hop, so the audio block after the last video grid can differ from HF.
-LAST_AUDIO_RUN_TOLERANCE = 2
+# vLLM and Hugging Face can place an audio token one position apart: vLLM pads audio to a multiple of the 160-sample hop,
+# and with non-integer frame rates the two round a grid's time differently. Audio has 13 tokens per second, so 2 tokens is 0.15 s.
+AUDIO_OFFSET_TOLERANCE = 2
 
 
 def load_engine(model_cfg: dict, engine_cfg: dict, mm_limits: dict, seed: int):
@@ -42,13 +43,27 @@ def pad_runs(ids: list[int], pad_ids: set[int]) -> list[list[int]]:
     return runs
 
 
+def _audio_tokens_before_video_tokens(runs: list[list[int]], audio_pad: int) -> list[int]:
+    """For each video token, how many audio tokens come before it."""
+    before, audio = [], 0
+    for token, length in runs:
+        if token == audio_pad:
+            audio += length
+        else:
+            before.extend([audio] * length)
+    return before
+
+
 def compare_interleaving(vllm_ids: list[int], reference_ids: list[int], video_pad: int, audio_pad: int) -> dict:
-    """Compare vLLM's interleaved placeholder pattern with the Hugging Face processor's."""
+    """Measure how far vLLM's interleaved audio sits from the Hugging Face processor's, in audio tokens."""
     ours, theirs = pad_runs(vllm_ids, {video_pad, audio_pad}), pad_runs(reference_ids, {video_pad, audio_pad})
-    identical = ours == theirs
-    close = (len(ours) == len(theirs) and ours[:-1] == theirs[:-1] and ours[-1][0] == theirs[-1][0] == audio_pad
-             and abs(ours[-1][1] - theirs[-1][1]) <= LAST_AUDIO_RUN_TOLERANCE)
-    return {"identical": identical, "ok": identical or close, "n_runs": len(ours), "n_audio_runs": sum(1 for t, _ in ours if t == audio_pad)}
+    ours_before, theirs_before = _audio_tokens_before_video_tokens(ours, audio_pad), _audio_tokens_before_video_tokens(theirs, audio_pad)
+    audio_delta = sum(n for t, n in ours if t == audio_pad) - sum(n for t, n in theirs if t == audio_pad)
+    same_video = len(ours_before) == len(theirs_before)
+    offset = max((abs(a - b) for a, b in zip(ours_before, theirs_before)), default=0)
+    return {"identical": ours == theirs, "ok": same_video and offset <= AUDIO_OFFSET_TOLERANCE and abs(audio_delta) <= AUDIO_OFFSET_TOLERANCE,
+            "same_video_tokens": same_video, "audio_token_delta": audio_delta, "max_audio_offset_tokens": offset,
+            "n_runs": len(ours), "n_audio_runs": sum(1 for t, _ in ours if t == audio_pad)}
 
 
 def reference_input_ids(processor, chat: str, media) -> list[int]:

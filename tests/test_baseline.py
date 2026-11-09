@@ -8,6 +8,7 @@ import yaml
 
 from omnitalk_baseline.conditions import Condition, build_message, build_multi_modal_data, load_conditions
 from omnitalk_baseline.data import load_manifest, load_questions
+from omnitalk_baseline.engine import compare_interleaving, modality_token_counts, modality_violations
 from omnitalk_baseline.parse import parse_letter, split_thinking
 from omnitalk_baseline.prompts import Prompts, format_time, render_question
 from omnitalk_baseline.scoring import accuracy_rows, crossmodal_counts, item_matrix
@@ -127,6 +128,40 @@ def test_scoring_counts_unparsed_as_wrong():
     assert rows["av_interleaved"]["correct"] == 1 and rows["video_only"]["unparsed"] == 1
     matrix = item_matrix(records, [{"question_id": "q1"}])
     assert crossmodal_counts(matrix)[0]["av_right_both_single_wrong"] == 1
+
+
+V, A = 1, 2
+
+
+def tokens(*pattern):
+    return [t for token, count in pattern for t in [token] * count]
+
+
+def test_interleaving_identical():
+    ids = tokens((V, 10), (A, 13), (V, 10), (A, 13))
+    result = compare_interleaving(ids, list(ids), V, A)
+    assert result["identical"] and result["ok"] and result["max_audio_offset_tokens"] == 0
+
+
+def test_interleaving_one_token_shift_is_tolerated():
+    result = compare_interleaving(tokens((V, 10), (A, 14), (V, 10), (A, 12)), tokens((V, 10), (A, 13), (V, 10), (A, 13)), V, A)
+    assert not result["identical"] and result["ok"] and result["max_audio_offset_tokens"] == 1
+
+
+def test_interleaving_extra_audio_at_the_end_is_tolerated():
+    result = compare_interleaving(tokens((V, 10), (A, 13), (V, 10), (A, 14)), tokens((V, 10), (A, 13), (V, 10), (A, 13)), V, A)
+    assert result["ok"] and result["audio_token_delta"] == 1 and result["max_audio_offset_tokens"] == 0
+
+
+def test_interleaving_large_drift_fails():
+    result = compare_interleaving(tokens((V, 10), (A, 26), (V, 10), (A, 0)), tokens((V, 10), (A, 13), (V, 10), (A, 13)), V, A)
+    assert not result["ok"] and result["max_audio_offset_tokens"] == 13
+
+
+def test_modality_violation_reports_leaked_audio():
+    counts = modality_token_counts([7, 7, 8], {"video": 7, "audio": 8, "image": 9})
+    assert counts == {"video": 2, "audio": 1, "image": 0}
+    assert modality_violations(counts, {"video": True, "audio": False, "image": False}) == ["audio: 1 tokens, expected none"]
 
 
 def test_failed_requests_are_reported_and_not_scored():
