@@ -237,7 +237,7 @@ Generation time is the sum over the 8 conditions, as batches of 8. The whole job
 - The list was chosen by how strongly the reviewer endorsed the questions, so it is not a random sample of the document.
 - The three longest clips are sampled below 2 fps because of the 240-frame limit, and `C07` sits exactly at the interleaving limit.
 - Source videos can disappear from YouTube: one question first chosen for this list had to be replaced because its video had been removed.
-- `requirements.lock.txt` was exported from the environment that produced these results. It matches the run's `pip_freeze.txt` exactly. A clean install from this file has not been tested separately yet.
+- `requirements.lock.txt` was exported from the environment that produced these results. It matches the run's `pip_freeze.txt` exactly. A clean install from this file into a new virtual environment, with `slurm/build_env.sbatch`, produced the same 216 package versions, and vLLM, PyTorch and Transformers imported without error. That new environment has not been used to repeat the GPU run.
 
 ## Reproducing this run
 
