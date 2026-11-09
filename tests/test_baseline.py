@@ -153,9 +153,12 @@ def test_interleaving_extra_audio_at_the_end_is_tolerated():
     assert result["ok"] and result["audio_token_delta"] == 1 and result["max_audio_offset_tokens"] == 0
 
 
-def test_interleaving_large_drift_fails():
-    result = compare_interleaving(tokens((V, 10), (A, 26), (V, 10), (A, 0)), tokens((V, 10), (A, 13), (V, 10), (A, 13)), V, A)
-    assert not result["ok"] and result["max_audio_offset_tokens"] == 13
+def test_interleaving_within_half_a_grid_passes_and_beyond_fails():
+    reference = tokens((V, 10), (A, 13), (V, 10), (A, 13))
+    near = compare_interleaving(tokens((V, 10), (A, 19), (V, 10), (A, 7)), reference, V, A)
+    far = compare_interleaving(tokens((V, 10), (A, 26), (V, 10)), reference, V, A)
+    assert near["ok"] and near["max_audio_offset_tokens"] == 6
+    assert not far["ok"] and far["max_audio_offset_tokens"] == 13
 
 
 def test_modality_violation_reports_leaked_audio():

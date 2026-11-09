@@ -5,9 +5,9 @@ import time
 import traceback
 
 PAD_TOKENS = {"video": "<|video_pad|>", "audio": "<|audio_pad|>", "image": "<|image_pad|>"}
-# vLLM and Hugging Face can place an audio token one position apart: vLLM pads audio to a multiple of the 160-sample hop,
-# and with non-integer frame rates the two round a grid's time differently. Audio has 13 tokens per second, so 2 tokens is 0.15 s.
-AUDIO_OFFSET_TOLERANCE = 2
+# vLLM and Hugging Face place audio tokens slightly apart when the sampled frame rate is not exactly 2 fps, and the gap grows with
+# clip length (3 tokens on an 80 s clip). A video grid lasts about 1 s and audio has 13 tokens per second, so this allows half a grid.
+AUDIO_OFFSET_TOLERANCE = 6
 
 
 def load_engine(model_cfg: dict, engine_cfg: dict, mm_limits: dict, seed: int):
