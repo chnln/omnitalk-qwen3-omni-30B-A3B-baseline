@@ -1,0 +1,7 @@
+Answer the following multiple-choice question about a short video clip of people interacting. Use only the material provided in this message. Exactly one option is correct; if you are unsure, give your best guess.
+
+Question: {question}
+Options:
+{options}
+
+Reply with only the letter of the correct option (A, B, C, or D).

@@ -1,0 +1,21 @@
+# Clips and other media are never tracked; data/clips_manifest.jsonl identifies them.
+data/clips/*
+!data/clips/.gitkeep
+*.mp4
+*.webm
+*.mkv
+*.mov
+*.wav
+*.mp3
+*.m4a
+
+# Site settings and job logs
+slurm/site.env
+logs/
+
+# Environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store

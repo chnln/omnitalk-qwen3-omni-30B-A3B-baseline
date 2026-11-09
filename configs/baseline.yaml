@@ -1,0 +1,47 @@
+# Experiment configuration. Paths on your machine come from environment variables or
+# command-line flags (see slurm/site.env.example), never from this file.
+seed: 1234
+prompt_file: prompts/mcq_letter_only.txt
+
+models:
+  instruct:
+    hf_id: Qwen/Qwen3-Omni-30B-A3B-Instruct
+    revision: 26291f793822fb6be9555850f06dfe95f2d7e695
+    sampling: {max_tokens: 64, temperature: 0.0, repetition_penalty: 1.05}
+  thinking:
+    hf_id: Qwen/Qwen3-Omni-30B-A3B-Thinking
+    revision: 2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b
+    sampling: {max_tokens: 8192, temperature: 0.6, top_p: 0.95, top_k: 20, repetition_penalty: 1.05}
+
+# Passed to vllm.LLM. Two H100s (93 GiB each) hold the model and a 49k-token request.
+engine:
+  tensor_parallel_size: 2
+  dtype: bfloat16
+  max_model_len: 49152
+  max_num_batched_tokens: 49152
+  gpu_memory_utilization: 0.85
+  mm_processor_cache_gb: 0
+
+media:
+  video_fps: 2.0
+  video_max_pixels: 451584  # 896 x 504
+  image_patch_size: 16
+  audio_sample_rate: 16000
+
+# Requests of one condition are sent in batches of this size.
+batch_size: 8
+
+# One input condition per entry. To add one, add a line here; see "Adding a condition" in README.md.
+#   visual:    video (decoded at media.video_fps) | frames (num_frames stills as images) | none
+#   audio:     interleaved (audio tokens interleaved with video grids; needs visual: video)
+#              | separate (one audio item) | none
+#   subtitles: also give the clip's auto-generated subtitles as text
+conditions:
+  av_interleaved: {visual: video, audio: interleaved, subtitles: false}
+  av_separate:    {visual: video, audio: separate, subtitles: false}
+  video_only:     {visual: video, audio: none, subtitles: false}
+  frames_audio:   {visual: frames, num_frames: 16, audio: separate, subtitles: false}
+  frames_only:    {visual: frames, num_frames: 16, audio: none, subtitles: false}
+  audio_only:     {visual: none, audio: separate, subtitles: false}
+  subtitles_only: {visual: none, audio: none, subtitles: true}
+  question_only:  {visual: none, audio: none, subtitles: false}
