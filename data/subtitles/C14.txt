@@ -1,0 +1,8 @@
+# YouTube uploaded captions inside the clip window (times relative to clip start; may contain errors)
+00:04 Excuse me.
+00:06 Have you got the time?
+00:08 Yeah, it is..
+00:11 It's 8:30
+00:12 8:30
+00:12 Yeah.
+00:13 Thanks.

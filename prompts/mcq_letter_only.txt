@@ -4,4 +4,4 @@ Question: {question}
 Options:
 {options}
 
-Reply with only the letter of the correct option (A, B, C, or D).
+Reply with only the letter of the correct option ({letters}).

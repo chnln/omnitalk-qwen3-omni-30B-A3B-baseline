@@ -23,8 +23,15 @@ def format_options(options: dict[str, str]) -> str:
     return "\n".join(f"{letter}. {text}" for letter, text in options.items())
 
 
+def format_letters(options: dict[str, str]) -> str:
+    """The option letters as a list in words, for example "A, B, C, or D". Questions have different numbers of options."""
+    letters = list(options)
+    return f"{letters[0]} or {letters[1]}" if len(letters) == 2 else ", ".join(letters[:-1]) + f", or {letters[-1]}"
+
+
 def render_question(template: str, item: dict) -> str:
-    return template.replace("{question}", item["question"]).replace("{options}", format_options(item["options"]))
+    return (template.replace("{question}", item["question"]).replace("{options}", format_options(item["options"]))
+            .replace("{letters}", format_letters(item["options"])))
 
 
 def format_time(seconds: float) -> str:

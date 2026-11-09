@@ -1,4 +1,4 @@
-"""Tables over prediction records. "Correct" means agreement with the provisional answer key in data/questions.jsonl."""
+"""Tables over prediction records. "Correct" means agreement with the answer key in data/questions.jsonl."""
 from __future__ import annotations
 
 from collections import Counter, defaultdict
@@ -64,7 +64,7 @@ def _mean(values) -> float:
 
 def markdown_report(rows: list[dict], matrix: dict, cross: list[dict], condition_order: list[str]) -> str:
     lines = ["# Scores", "",
-             "Accuracy is agreement with the provisional, model-written answer key, not with human gold.", "",
+             "Accuracy is agreement with the answer key written by the question authors (`answer_status`: `author_key`), which has not been audited independently.", "",
              "## Per model and condition", "",
              "| model | condition | correct / n | request errors | unparsed | hit max tokens | predicted letters | mean input tokens | mean output tokens |",
              "|---|---|---|---|---|---|---|---|---|"]
@@ -73,7 +73,7 @@ def markdown_report(rows: list[dict], matrix: dict, cross: list[dict], condition
         letters = " ".join(f"{k}:{v}" for k, v in r["letters"].items())
         lines.append(f"| {r['model']} | {r['condition']} | {r['correct']}/{r['n']} | {r['request_errors']} | {r['unparsed']} | {r['hit_max_tokens']} | {letters} | {r['mean_prompt_tokens']} | {r['mean_output_tokens']} |")
     for model, by_q in matrix.items():
-        lines += ["", f"## Per question: {model}", "", "A check mark means the letter agrees with the provisional key; `-` means no letter could be parsed.", "",
+        lines += ["", f"## Per question: {model}", "", "A check mark means the letter agrees with the answer key; `-` means no letter could be parsed.", "",
                   "| question | " + " | ".join(condition_order) + " |", "|---|" + "---|" * len(condition_order)]
         for question, conds in by_q.items():
             cells = []

@@ -1,0 +1,2154 @@
+{
+ "note": "Accuracy is agreement with the answer key written by the question authors; it has not been audited independently.",
+ "per_condition": [
+  {
+   "model": "instruct",
+   "condition": "audio_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 8,
+   "accuracy": 0.4,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 5,
+    "B": 3,
+    "C": 4,
+    "D": 5,
+    "E": 2,
+    "F": 1
+   },
+   "mean_prompt_tokens": 1046,
+   "mean_output_tokens": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "av_interleaved",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 10,
+   "accuracy": 0.5,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 5,
+    "B": 5,
+    "C": 3,
+    "D": 5,
+    "E": 1,
+    "F": 1
+   },
+   "mean_prompt_tokens": 29138,
+   "mean_output_tokens": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "av_separate",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 11,
+   "accuracy": 0.55,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 5,
+    "B": 4,
+    "C": 5,
+    "D": 4,
+    "E": 1,
+    "F": 1
+   },
+   "mean_prompt_tokens": 29138,
+   "mean_output_tokens": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_audio",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 7,
+   "accuracy": 0.35,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 5,
+    "B": 3,
+    "C": 4,
+    "D": 5,
+    "E": 2,
+    "F": 1
+   },
+   "mean_prompt_tokens": 7607,
+   "mean_output_tokens": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 9,
+   "accuracy": 0.45,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 2,
+    "B": 5,
+    "C": 2,
+    "D": 7,
+    "E": 2,
+    "F": 2
+   },
+   "mean_prompt_tokens": 6703,
+   "mean_output_tokens": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "question_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 8,
+   "accuracy": 0.4,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 3,
+    "B": 6,
+    "C": 5,
+    "D": 2,
+    "E": 3,
+    "F": 1
+   },
+   "mean_prompt_tokens": 142,
+   "mean_output_tokens": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "subtitles_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 3,
+   "accuracy": 0.15,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 3,
+    "B": 2,
+    "C": 7,
+    "D": 2,
+    "E": 5,
+    "F": 1
+   },
+   "mean_prompt_tokens": 424,
+   "mean_output_tokens": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "video_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 8,
+   "accuracy": 0.4,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 3,
+    "B": 3,
+    "C": 3,
+    "D": 9,
+    "E": 1,
+    "F": 1
+   },
+   "mean_prompt_tokens": 28233,
+   "mean_output_tokens": 2
+  },
+  {
+   "model": "thinking",
+   "condition": "audio_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 4,
+   "accuracy": 0.2,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 3,
+    "B": 3,
+    "C": 4,
+    "D": 6,
+    "E": 3,
+    "F": 1
+   },
+   "mean_prompt_tokens": 1046,
+   "mean_output_tokens": 343
+  },
+  {
+   "model": "thinking",
+   "condition": "av_interleaved",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 10,
+   "accuracy": 0.5,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 5,
+    "B": 7,
+    "C": 4,
+    "D": 2,
+    "E": 1,
+    "F": 1
+   },
+   "mean_prompt_tokens": 29138,
+   "mean_output_tokens": 343
+  },
+  {
+   "model": "thinking",
+   "condition": "av_separate",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 9,
+   "accuracy": 0.45,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 4,
+    "B": 4,
+    "C": 7,
+    "D": 2,
+    "E": 1,
+    "F": 2
+   },
+   "mean_prompt_tokens": 29138,
+   "mean_output_tokens": 295
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_audio",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 9,
+   "accuracy": 0.45,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 3,
+    "B": 5,
+    "C": 3,
+    "D": 7,
+    "E": 1,
+    "F": 1
+   },
+   "mean_prompt_tokens": 7607,
+   "mean_output_tokens": 328
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 7,
+   "accuracy": 0.35,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 7,
+    "B": 3,
+    "C": 2,
+    "D": 6,
+    "E": 2
+   },
+   "mean_prompt_tokens": 6703,
+   "mean_output_tokens": 300
+  },
+  {
+   "model": "thinking",
+   "condition": "question_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 3,
+   "accuracy": 0.15,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 1,
+    "B": 7,
+    "C": 1,
+    "D": 3,
+    "E": 7,
+    "F": 1
+   },
+   "mean_prompt_tokens": 142,
+   "mean_output_tokens": 1940
+  },
+  {
+   "model": "thinking",
+   "condition": "subtitles_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 3,
+   "accuracy": 0.15,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 3,
+    "B": 4,
+    "C": 5,
+    "D": 3,
+    "E": 4,
+    "F": 1
+   },
+   "mean_prompt_tokens": 424,
+   "mean_output_tokens": 2704
+  },
+  {
+   "model": "thinking",
+   "condition": "video_only",
+   "n": 20,
+   "request_errors": 0,
+   "correct": 11,
+   "accuracy": 0.55,
+   "unparsed": 0,
+   "hit_max_tokens": 0,
+   "letters": {
+    "A": 3,
+    "B": 5,
+    "C": 4,
+    "D": 6,
+    "E": 1,
+    "F": 1
+   },
+   "mean_prompt_tokens": 28233,
+   "mean_output_tokens": 304
+  }
+ ],
+ "by_approval": [
+  {
+   "model": "instruct",
+   "condition": "audio_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "instruct",
+   "condition": "audio_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 3
+  },
+  {
+   "model": "instruct",
+   "condition": "audio_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 3
+  },
+  {
+   "model": "instruct",
+   "condition": "audio_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 1
+  },
+  {
+   "model": "instruct",
+   "condition": "av_interleaved",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "av_interleaved",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 3
+  },
+  {
+   "model": "instruct",
+   "condition": "av_interleaved",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "av_interleaved",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 3
+  },
+  {
+   "model": "instruct",
+   "condition": "av_separate",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "av_separate",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 4
+  },
+  {
+   "model": "instruct",
+   "condition": "av_separate",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "av_separate",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 3
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_audio",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_audio",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_audio",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_audio",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 4
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "frames_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "question_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "question_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 3
+  },
+  {
+   "model": "instruct",
+   "condition": "question_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "question_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 1
+  },
+  {
+   "model": "instruct",
+   "condition": "subtitles_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 0
+  },
+  {
+   "model": "instruct",
+   "condition": "subtitles_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 1
+  },
+  {
+   "model": "instruct",
+   "condition": "subtitles_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "subtitles_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 0
+  },
+  {
+   "model": "instruct",
+   "condition": "video_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 0
+  },
+  {
+   "model": "instruct",
+   "condition": "video_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 4
+  },
+  {
+   "model": "instruct",
+   "condition": "video_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "instruct",
+   "condition": "video_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 2
+  },
+  {
+   "model": "thinking",
+   "condition": "audio_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 0
+  },
+  {
+   "model": "thinking",
+   "condition": "audio_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 0
+  },
+  {
+   "model": "thinking",
+   "condition": "audio_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 3
+  },
+  {
+   "model": "thinking",
+   "condition": "audio_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "av_interleaved",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "av_interleaved",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 3
+  },
+  {
+   "model": "thinking",
+   "condition": "av_interleaved",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "thinking",
+   "condition": "av_interleaved",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 4
+  },
+  {
+   "model": "thinking",
+   "condition": "av_separate",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "av_separate",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 3
+  },
+  {
+   "model": "thinking",
+   "condition": "av_separate",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "thinking",
+   "condition": "av_separate",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 3
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_audio",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_audio",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 3
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_audio",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 3
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_audio",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 2
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 4
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "frames_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "question_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "question_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 0
+  },
+  {
+   "model": "thinking",
+   "condition": "question_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "question_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "subtitles_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "subtitles_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 0
+  },
+  {
+   "model": "thinking",
+   "condition": "subtitles_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "thinking",
+   "condition": "subtitles_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 0
+  },
+  {
+   "model": "thinking",
+   "condition": "video_only",
+   "approval": "reviewer_praised",
+   "n": 3,
+   "correct": 1
+  },
+  {
+   "model": "thinking",
+   "condition": "video_only",
+   "approval": "reviewer_selected",
+   "n": 9,
+   "correct": 5
+  },
+  {
+   "model": "thinking",
+   "condition": "video_only",
+   "approval": "reviewer_written",
+   "n": 3,
+   "correct": 2
+  },
+  {
+   "model": "thinking",
+   "condition": "video_only",
+   "approval": "selected_list",
+   "n": 5,
+   "correct": 3
+  }
+ ],
+ "crossmodal": [
+  {
+   "model": "instruct",
+   "n": 20,
+   "av_right_both_single_wrong": 2,
+   "av_wrong_a_single_right": 4
+  },
+  {
+   "model": "thinking",
+   "n": 20,
+   "av_right_both_single_wrong": 2,
+   "av_wrong_a_single_right": 5
+  }
+ ],
+ "per_question": {
+  "instruct": {
+   "OT-0001": {
+    "audio_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "E",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "E",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "E",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   },
+   "OT-0002": {
+    "audio_only": {
+     "letter": "A",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "E",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   },
+   "OT-0003": {
+    "audio_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   },
+   "OT-0004": {
+    "audio_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": true
+    }
+   },
+   "OT-0005": {
+    "audio_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "F",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "F",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "E",
+     "correct": false
+    }
+   },
+   "OT-0006": {
+    "audio_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "C",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "C",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "C",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "C",
+     "correct": true
+    }
+   },
+   "OT-0007": {
+    "audio_only": {
+     "letter": "F",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "F",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "F",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "F",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "C",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "F",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "C",
+     "correct": true
+    }
+   },
+   "OT-0008": {
+    "audio_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "F",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "F",
+     "correct": false
+    }
+   },
+   "OT-0009": {
+    "audio_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "C",
+     "correct": false
+    }
+   },
+   "OT-0010": {
+    "audio_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "C",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "C",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": true
+    },
+    "video_only": {
+     "letter": "B",
+     "correct": false
+    }
+   },
+   "OT-0011": {
+    "audio_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "A",
+     "correct": true
+    }
+   },
+   "OT-0012": {
+    "audio_only": {
+     "letter": "A",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "D",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "A",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   },
+   "OT-0013": {
+    "audio_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": true
+    }
+   },
+   "OT-0014": {
+    "audio_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "video_only": {
+     "letter": "B",
+     "correct": true
+    }
+   },
+   "OT-0015": {
+    "audio_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "A",
+     "correct": false
+    }
+   },
+   "OT-0016": {
+    "audio_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "D",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "D",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   },
+   "OT-0017": {
+    "audio_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": true
+    }
+   },
+   "OT-0018": {
+    "audio_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "B",
+     "correct": true
+    }
+   },
+   "OT-0019": {
+    "audio_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "A",
+     "correct": false
+    }
+   },
+   "OT-0020": {
+    "audio_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   }
+  },
+  "thinking": {
+   "OT-0001": {
+    "audio_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "E",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "E",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "E",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   },
+   "OT-0002": {
+    "audio_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "B",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   },
+   "OT-0003": {
+    "audio_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "video_only": {
+     "letter": "B",
+     "correct": true
+    }
+   },
+   "OT-0004": {
+    "audio_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": true
+    }
+   },
+   "OT-0005": {
+    "audio_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "F",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "A",
+     "correct": false
+    }
+   },
+   "OT-0006": {
+    "audio_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "C",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "C",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "C",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "C",
+     "correct": true
+    }
+   },
+   "OT-0007": {
+    "audio_only": {
+     "letter": "F",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "F",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "F",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "F",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "C",
+     "correct": true
+    }
+   },
+   "OT-0008": {
+    "audio_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "F",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "E",
+     "correct": false
+    }
+   },
+   "OT-0009": {
+    "audio_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "C",
+     "correct": false
+    }
+   },
+   "OT-0010": {
+    "audio_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "C",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "C",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "C",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "C",
+     "correct": true
+    }
+   },
+   "OT-0011": {
+    "audio_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "B",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "A",
+     "correct": true
+    }
+   },
+   "OT-0012": {
+    "audio_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   },
+   "OT-0013": {
+    "audio_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": true
+    }
+   },
+   "OT-0014": {
+    "audio_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "video_only": {
+     "letter": "B",
+     "correct": true
+    }
+   },
+   "OT-0015": {
+    "audio_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "video_only": {
+     "letter": "A",
+     "correct": false
+    }
+   },
+   "OT-0016": {
+    "audio_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "B",
+     "correct": true
+    }
+   },
+   "OT-0017": {
+    "audio_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_interleaved": {
+     "letter": "D",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "D",
+     "correct": true
+    },
+    "subtitles_only": {
+     "letter": "B",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "F",
+     "correct": false
+    }
+   },
+   "OT-0018": {
+    "audio_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_audio": {
+     "letter": "B",
+     "correct": true
+    },
+    "frames_only": {
+     "letter": "B",
+     "correct": true
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "F",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "B",
+     "correct": true
+    }
+   },
+   "OT-0019": {
+    "audio_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "A",
+     "correct": false
+    },
+    "av_separate": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "A",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "E",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "B",
+     "correct": true
+    }
+   },
+   "OT-0020": {
+    "audio_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "av_interleaved": {
+     "letter": "B",
+     "correct": true
+    },
+    "av_separate": {
+     "letter": "C",
+     "correct": false
+    },
+    "frames_audio": {
+     "letter": "D",
+     "correct": false
+    },
+    "frames_only": {
+     "letter": "A",
+     "correct": false
+    },
+    "question_only": {
+     "letter": "D",
+     "correct": false
+    },
+    "subtitles_only": {
+     "letter": "C",
+     "correct": false
+    },
+    "video_only": {
+     "letter": "D",
+     "correct": false
+    }
+   }
+  }
+ }
+}

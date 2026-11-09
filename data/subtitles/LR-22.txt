@@ -1,6 +1,0 @@
-# YouTube auto-captions inside the clip window (times relative to clip start; may contain errors)
-00:01 Jeremy is ready.
-00:06 Keep going.
-00:11 What is that noise?
-00:18 That's my gearbox. No, no, stop. Oh, you
-00:22 pillock.

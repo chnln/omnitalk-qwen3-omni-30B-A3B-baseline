@@ -13,17 +13,19 @@ models:
     revision: 2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b
     sampling: {max_tokens: 8192, temperature: 0.6, top_p: 0.95, top_k: 20, repetition_penalty: 1.05}
 
-# Passed to vllm.LLM. Two H100s (93 GiB each) hold the model and a 49k-token request.
+# Passed to vllm.LLM. 65536 is the model's own position limit (max_position_embeddings).
 engine:
   tensor_parallel_size: 2
   dtype: bfloat16
-  max_model_len: 49152
-  max_num_batched_tokens: 49152
+  max_model_len: 65536
+  max_num_batched_tokens: 65536
   gpu_memory_utilization: 0.85
   mm_processor_cache_gb: 0
 
 media:
   video_fps: 2.0
+  # 240 frames at 896 x 504 is about 53k video tokens. Clips longer than 120 s are sampled evenly at a lower rate.
+  video_max_frames: 240
   video_max_pixels: 451584  # 896 x 504
   image_patch_size: 16
   audio_sample_rate: 16000

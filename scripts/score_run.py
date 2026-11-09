@@ -36,9 +36,8 @@ def main():
 
     rows, matrix = accuracy_rows(records), item_matrix(records, questions)
     cross = crossmodal_counts(matrix)
-    scores = {"note": "Accuracy is agreement with the provisional, model-written answer key.", "per_condition": rows,
-              "by_relation": breakdown(records, by_id, "relation"), "by_target": breakdown(records, by_id, "target"),
-              "by_question_review": breakdown(records, by_id, "question_review"), "crossmodal": cross, "per_question": matrix}
+    scores = {"note": "Accuracy is agreement with the answer key written by the question authors; it has not been audited independently.", "per_condition": rows,
+              "by_approval": breakdown(records, by_id, "approval"), "crossmodal": cross, "per_question": matrix}
     (args.run / "scores.json").write_text(json.dumps(scores, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     (args.run / "scores.md").write_text(markdown_report(rows, matrix, cross, conditions), encoding="utf-8")
     with open(args.run / "predictions_flat.csv", "w", newline="", encoding="utf-8") as f:

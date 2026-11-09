@@ -1,0 +1,19 @@
+# YouTube uploaded captions inside the clip window (times relative to clip start; may contain errors)
+00:01 Are you ready to order?
+00:02 Yes, please.
+00:03 Can I get you something to start with?
+00:05 No, thank you. I’d like the&nbsp;
+00:05 tuna with a green salad.
+00:12 And for you, sir?
+00:13 I’ll have the steak, please.
+00:16 Would you like that with fries or a baked potato?
+00:19 Fries, please.
+00:20 How would you like your steak?&nbsp;
+00:20 Rare, medium, or well done?
+00:24 Well done.
+00:27 Nothing for me.
+00:28 OK.
+00:29 And to drink?
+00:30 Water, please.
+00:31 Still or sparkling?
+00:32 Sparkling.

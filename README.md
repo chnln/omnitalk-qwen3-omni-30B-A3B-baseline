@@ -12,9 +12,9 @@ Results of the reference run, with its configuration, inputs and outputs: **[RES
 |---|---|
 | `configs/baseline.yaml` | Models, sampling, engine settings, media settings, and the input conditions |
 | `prompts/` | Prompt templates |
-| `data/questions.jsonl` | The questions, options and provisional answers |
+| `data/questions.jsonl` | The questions, options and answer key, with how each question was reviewed |
 | `data/clips_manifest.jsonl` | Which clip each question uses: source video, time window, SHA-256, resolution |
-| `data/subtitles/` | Auto-generated subtitles for the subtitle conditions |
+| `data/subtitles/` | YouTube captions for the subtitle conditions |
 | `data/clips/` | Put the clips here (not tracked by Git) |
 | `scripts/run_baseline.py` | Run one model over the questions |
 | `scripts/score_run.py` | Score a finished run |
@@ -71,7 +71,7 @@ sbatch --partition=<gpu partition> --account=<account> --time=00:45:00 slurm/run
 sbatch --partition=<gpu partition> --account=<account> slurm/run_baseline.sbatch
 ```
 
-The arguments are, in order: the subset (`smoke` has 3 questions, `core` has 12; default `core`), a quoted space-separated list of keys under `models:` (default `"instruct thinking"`), the run id that names the output directory, and comma-separated conditions (default all). Each model loads once, which takes about 4 to 8 minutes; the 96 requests per model then take 1.5 to 3.5 minutes.
+The arguments are, in order: the subset (`smoke` has 3 questions, `core` has 20; default `core`), a quoted space-separated list of keys under `models:` (default `"instruct thinking"`), the run id that names the output directory, and comma-separated conditions (default all). Each model loads once, which takes about 4 to 8 minutes; the 160 requests per model then take about 3 to 7 minutes.
 
 **Without SLURM.** Run from the repository root, with the variables from `slurm/site.env` exported:
 
@@ -103,6 +103,8 @@ Each condition sends the same question text and differs only in the material aro
 
 `av_interleaved` is the primary condition. In an earlier pilot on this model, interleaving was what made timing in the audio match the frames.
 
+Video is sampled at 2 fps up to 240 frames (`video_max_frames`), at most 896 x 504 pixels. A clip longer than 120 s is sampled evenly at the lower rate that gives 240 frames. Four of the 19 clips are longer than 120 s; the three longest (129, 135 and 142 s) are sampled at 1.69 to 1.86 fps.
+
 The run checks each request's actual token ids before accepting it. It stops with exit code 3 if a modality that should be absent reached the model, or if interleaved audio sits more than half a video grid from the Hugging Face processor's position. A request that produced no output is left out of the scores, and the run then exits with code 4.
 
 ## Inputs
@@ -110,29 +112,37 @@ The run checks each request's actual token ids before accepting it. It stops wit
 **Questions** (`data/questions.jsonl`, one JSON object per line):
 
 ```json
-{"question_id": "R8-17-v2", "clip_id": "R8-17",
- "question": "What prompts the man in the blue shirt to say 'Oops'?",
- "options": {"A": "...", "B": "...", "C": "...", "D": "..."},
- "answer": "C", "answer_status": "provisional", "question_review": "accepted_by_author",
- "relation": "complementary", "target": "prompt_or_cause", "subsets": ["smoke", "core"]}
+{"question_id": "OT-0012", "clip_id": "C11",
+ "question": "Why does the man laugh at the lady's question?",
+ "options": {"A": "It was a joke", "B": "It was a dumb question", "C": "He is gloating", "D": "He is proud of his achievement", "E": "He feels nervous"},
+ "answer": "A", "answer_status": "author_key", "approval": "reviewer_selected", "subsets": ["smoke", "core"]}
 ```
 
-`relation` says how the modalities relate (`complementary` or `contradictory`). `target` is what the question asks about (referent, intention, execution, and so on).
+Questions have 4 to 6 options. The prompt names the letters each question allows.
 
-Answers are `provisional`: a model wrote them while listening to the clip, and no person has verified them. Treat scores as agreement with this key.
+The 20 questions come from the team's shared annotation document, and `question_id` is a neutral id. They are the ones the benchmark reviewer endorsed most clearly, and they cover four question authors. `approval` says what the reviewer did:
+
+| `approval` | Meaning | Questions |
+|---|---|---|
+| `reviewer_praised` | The reviewer called the question good | 3 |
+| `reviewer_selected` | The reviewer marked it selected or to keep | 9 |
+| `reviewer_written` | The reviewer wrote it | 3 |
+| `selected_list` | It is on a selected list and the reviewer's comments only refine its annotation | 5 |
+
+Wording and options are copied from the document unchanged. The key (`answer_status: author_key`) is the answer each question's author wrote; it has not been audited independently. Some reviewer suggestions are still open in the document, for example making one option of OT-0001 more specific. Treat scores as agreement with this key.
 
 **Clips** (`data/clips_manifest.jsonl`) identify the input video without including it:
 
 ```json
-{"clip_id": "R8-17", "file": "R8-17.mp4",
- "source": {"platform": "youtube", "video_id": "a-e3kdPKEcU", "url": "...", "title": "...", "start_seconds": 85.0, "end_seconds": 128.0},
- "sha256": "...", "size_bytes": 2637891, "duration_s": 43.0, "width": 240, "height": 426, "video_codec": "h264", "video_fps": 30.0,
+{"clip_id": "C11", "file": "C11.mp4",
+ "source": {"platform": "youtube", "video_id": "wfG8gRY3T_4", "url": "...", "title": "...", "channel": "...", "start_seconds": 34.1, "end_seconds": 38.2},
+ "sha256": "...", "size_bytes": 770607, "caption_kind": "auto", "duration_s": 4.104, "width": 1280, "height": 720, "video_codec": "h264", "video_fps": 29.97,
  "has_audio": true, "audio_codec": "aac", "audio_sample_rate": 48000, "audio_channels": 2}
 ```
 
 Clips are short cuts of public videos; redistribution rights are unconfirmed, so they stay out of this repository. To rebuild them, take `source.video_id`, `start_seconds` and `end_seconds`. Files you cut yourself will not match `sha256` byte for byte; use `--no-verify-clips` for them, and record that your input differs.
 
-**Subtitles** (`data/subtitles/<clip_id>.txt`) are YouTube auto-captions in the clip window, with times relative to the clip start. They can be wrong.
+**Subtitles** (`data/subtitles/<clip_id>.txt`) are the YouTube captions in the clip window, with times relative to the clip start. `caption_kind` in the manifest says whether they are `auto`-generated or `manual`. Clip C09 has no captions, so its subtitle file is empty and `subtitles_only` gives that question no extra text. Captions can be wrong.
 
 ## Outputs
 
@@ -144,7 +154,7 @@ Each run writes to `outputs/<run_id>/`:
 | `meta_<model>.json` | Model, revision, sampling, engine and media settings, package versions, GPUs, load and decode times, wall time per condition |
 | `pip_freeze.txt` | Installed packages at run time |
 | `scores.md` | Tables: accuracy, letter distribution, per-question answers |
-| `scores.json` | The same in structured form, with breakdowns by relation and target |
+| `scores.json` | The same in structured form, with a breakdown by `approval` |
 | `predictions_flat.csv` | One row per question and condition, without long text |
 | `job.log` | Job log with paths and host names removed |
 
@@ -161,7 +171,7 @@ A prediction record holds:
 | `output_text` | Raw model output |
 | `thinking_text`, `answer_text`, `think_closed` | For Thinking, the reasoning and the answer after `</think>` |
 | `parsed_letter`, `parse_method` | The letter read from the answer; `null` if none could be read |
-| `answer`, `answer_status`, `correct` | The provisional key and whether the answer agrees with it. Unparsed counts as wrong |
+| `answer`, `answer_status`, `correct` | The answer key and whether the answer agrees with it. Unparsed counts as wrong |
 | `output_tokens`, `finish_reason`, `hit_max_tokens` | Length and stop reason |
 | `timing`, `error` | Wall time of the batch the request ran in, and any error |
 
@@ -175,7 +185,7 @@ frames32_audio: {visual: frames, num_frames: 32, audio: separate, subtitles: fal
 
 A new way of combining inputs (for example a different frame layout) goes in `src/omnitalk_baseline/conditions.py`, and `expected` must say which modalities should arrive.
 
-**Add a prompt.** Copy a file in `prompts/`, set `prompt_file:` in the config. Templates use `{question}` and `{options}`, filled with plain replacement, so JSON in a prompt is safe.
+**Add a prompt.** Copy a file in `prompts/`, set `prompt_file:` in the config. Templates use `{question}`, `{options}` and `{letters}` (the letters this question allows, such as `A, B, C, D, or E`), filled with plain replacement, so JSON in a prompt is safe.
 
 **Add questions or clips.** Add rows to the two JSONL files in the same format, the clip to the clips directory, and a subtitle file if a condition uses subtitles. Put questions in a subset with `subsets`.
 
@@ -187,3 +197,4 @@ A new way of combining inputs (for example a different frame layout) goes in `sr
 - Pass `fps` to the processor. Otherwise it assumes 1.0 while the video was sampled at 2.0, which misaligns interleaved audio.
 - Pin `librosa==0.11.0`. Version 1.0 no longer reads the audio object `qwen-omni-utils` passes for audio in video.
 - Do not format prompts with `str.format`; prompts that contain braces then fail.
+- `max_model_len` cannot exceed the model's `max_position_embeddings` (65536). At 896 x 504 and 2 fps, video costs about 441 tokens per second, so long clips need `video_max_frames`.

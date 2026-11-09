@@ -21,7 +21,9 @@ def decode_clip(path: Path, media_cfg: dict, frame_counts: set[int], with_audio:
     import numpy as np
     from qwen_omni_utils import process_mm_info
 
-    entry = {"type": "video", "video": str(path), "fps": media_cfg["video_fps"], "max_pixels": media_cfg["video_max_pixels"]}
+    # max_frames only matters for clips longer than max_frames / fps seconds, which are then sampled uniformly at a lower rate.
+    entry = {"type": "video", "video": str(path), "fps": media_cfg["video_fps"], "max_frames": media_cfg["video_max_frames"],
+             "max_pixels": media_cfg["video_max_pixels"]}
     audios, _, videos, video_kwargs = process_mm_info(
         [{"role": "user", "content": [entry]}], use_audio_in_video=with_audio, return_video_kwargs=True,
         image_patch_size=media_cfg["image_patch_size"])

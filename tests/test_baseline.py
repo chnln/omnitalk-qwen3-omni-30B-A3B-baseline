@@ -10,7 +10,7 @@ from omnitalk_baseline.conditions import Condition, build_message, build_multi_m
 from omnitalk_baseline.data import load_manifest, load_questions
 from omnitalk_baseline.engine import compare_interleaving, modality_token_counts, modality_violations
 from omnitalk_baseline.parse import parse_letter, split_thinking
-from omnitalk_baseline.prompts import Prompts, format_time, render_question
+from omnitalk_baseline.prompts import Prompts, format_letters, format_time, render_question
 from omnitalk_baseline.scoring import accuracy_rows, crossmodal_counts, item_matrix
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,6 +38,18 @@ def test_parse_letter(text, letter, method):
     assert parse_letter(text, OPTIONS) == (letter, method)
 
 
+def test_parse_letter_handles_more_than_four_options():
+    five = dict(OPTIONS, E="the jug")
+    assert parse_letter("E", five) == ("E", "bare_letter")
+    assert parse_letter("E. the jug", five) == ("E", "leading_letter")
+    assert parse_letter("The answer is E.", five) == ("E", "explicit")
+
+
+def test_a_letter_outside_the_options_is_not_an_answer():
+    assert parse_letter("E", OPTIONS) == (None, "not_an_option")
+    assert parse_letter("The answer is F.", OPTIONS) == (None, "not_an_option")
+
+
 def test_split_thinking():
     assert split_thinking("<think>\nhmm</think>\n\nB") == {"think_closed": True, "thinking_text": "hmm", "answer_text": "B"}
     assert split_thinking("<think>still going")["answer_text"] is None
@@ -45,6 +57,12 @@ def test_split_thinking():
 
 def test_render_keeps_braces_in_question():
     assert render_question(PROMPTS.question, ITEM).startswith('Q: What does "that" mean {here}?\nA. the red cup')
+
+
+def test_letters_follow_the_number_of_options():
+    assert format_letters({"A": "x", "B": "y"}) == "A or B"
+    assert format_letters(dict(OPTIONS, E="the jug")) == "A, B, C, D, or E"
+    assert render_question("Pick ({letters})", ITEM) == "Pick (A, B, C, or D)"
 
 
 def test_format_time():
@@ -109,8 +127,9 @@ def test_data_files_are_consistent():
     manifest = load_manifest(ROOT / "data/clips_manifest.jsonl")
     assert {q["clip_id"] for q in questions} == set(manifest)
     for q in questions:
-        assert list(q["options"]) == list("ABCD") and q["answer"] in q["options"]
-        assert q["answer_status"] == "provisional"
+        assert list(q["options"]) == list("ABCDEFGH")[:len(q["options"])] and q["answer"] in q["options"]
+        assert q["answer_status"] == "author_key"
+        assert q["approval"] in {"reviewer_praised", "reviewer_selected", "reviewer_written", "selected_list"}
         assert (ROOT / "data/subtitles" / f"{q['clip_id']}.txt").is_file()
     assert sum("smoke" in q["subsets"] for q in questions) == 3
     for entry in manifest.values():
