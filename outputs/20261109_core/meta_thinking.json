@@ -1,0 +1,102 @@
+{
+ "model": "thinking",
+ "hf_id": "Qwen/Qwen3-Omni-30B-A3B-Thinking",
+ "revision": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
+ "config_file": "baseline.yaml",
+ "prompt_file": "prompts/mcq_letter_only.txt",
+ "subset": "core",
+ "n_questions": 12,
+ "conditions": [
+  "av_interleaved",
+  "av_separate",
+  "video_only",
+  "frames_audio",
+  "frames_only",
+  "audio_only",
+  "subtitles_only",
+  "question_only"
+ ],
+ "sampling": {
+  "max_tokens": 8192,
+  "temperature": 0.6,
+  "top_p": 0.95,
+  "top_k": 20,
+  "repetition_penalty": 1.05
+ },
+ "seed": 1234,
+ "engine": {
+  "tensor_parallel_size": 2,
+  "dtype": "bfloat16",
+  "max_model_len": 49152,
+  "max_num_batched_tokens": 49152,
+  "gpu_memory_utilization": 0.85,
+  "mm_processor_cache_gb": 0
+ },
+ "media": {
+  "video_fps": 2.0,
+  "video_max_pixels": 451584,
+  "image_patch_size": 16,
+  "audio_sample_rate": 16000
+ },
+ "slurm_job_id": "29009987",
+ "python": "3.12.13",
+ "packages": {
+  "vllm": "0.33.0",
+  "torch": "2.14.0",
+  "transformers": "5.20.2",
+  "qwen-omni-utils": "0.0.9",
+  "librosa": "0.11.0",
+  "decord": "0.6.0"
+ },
+ "gpus": [
+  "NVIDIA H100",
+  "NVIDIA H100"
+ ],
+ "started": "2026-11-09 06:08:11",
+ "groups": [
+  {
+   "condition": "av_interleaved",
+   "n": 12,
+   "wall_s": 26.1
+  },
+  {
+   "condition": "av_separate",
+   "n": 12,
+   "wall_s": 17.7
+  },
+  {
+   "condition": "video_only",
+   "n": 12,
+   "wall_s": 12.6
+  },
+  {
+   "condition": "frames_audio",
+   "n": 12,
+   "wall_s": 27.6
+  },
+  {
+   "condition": "frames_only",
+   "n": 12,
+   "wall_s": 26.9
+  },
+  {
+   "condition": "audio_only",
+   "n": 12,
+   "wall_s": 8.9
+  },
+  {
+   "condition": "subtitles_only",
+   "n": 12,
+   "wall_s": 50.5
+  },
+  {
+   "condition": "question_only",
+   "n": 12,
+   "wall_s": 34.4
+  }
+ ],
+ "media_decode_s": 13.6,
+ "model_load_s": 370.6,
+ "finished": "2026-11-09 06:18:00",
+ "request_errors": []
+}

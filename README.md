@@ -28,7 +28,7 @@ Results of the reference run, with its configuration, inputs and outputs: **[RES
 ## Requirements
 
 - Linux, x86_64, Python 3.12
-- About 186 GiB of GPU memory across two GPUs. The reference run used 2 × NVIDIA H100 (93 GiB each), 32 CPU cores, one half node
+- Two GPUs with about 93 GiB each. The reference run used 2 × NVIDIA H100, 32 CPU cores and 360 GB of memory. vLLM reserves 85% of each GPU
 - `ffmpeg` on `PATH`, used to read the audio track of an mp4
 - About 130 GB of disk for the two checkpoints
 
@@ -46,8 +46,8 @@ On a SLURM cluster, `sbatch --partition=<cpu or build partition> --account=<acco
 **2. Weights.** Download the two checkpoints into your Hugging Face cache. The config pins the revisions used for RESULTS.md; the snapshot downloaded must match them, or change `revision:` in the config.
 
 ```bash
-huggingface-cli download Qwen/Qwen3-Omni-30B-A3B-Instruct --revision 26291f793822fb6be9555850f06dfe95f2d7e695
-huggingface-cli download Qwen/Qwen3-Omni-30B-A3B-Thinking --revision 2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b
+hf download Qwen/Qwen3-Omni-30B-A3B-Instruct --revision 26291f793822fb6be9555850f06dfe95f2d7e695
+hf download Qwen/Qwen3-Omni-30B-A3B-Thinking --revision 2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b
 ```
 
 **3. Clips.** The clips are not distributed here. See [Inputs](#inputs) for how to obtain or replace them, and put them in `data/clips/`, or set `OMNITALK_CLIPS_DIR`. Then check them:
@@ -71,7 +71,7 @@ sbatch --partition=<gpu partition> --account=<account> --time=00:45:00 slurm/run
 sbatch --partition=<gpu partition> --account=<account> slurm/run_baseline.sbatch
 ```
 
-The arguments are, in order: the subset (`smoke` has 3 questions, `core` has 12; default `core`), a quoted space-separated list of keys under `models:` (default `"instruct thinking"`), the run id that names the output directory, and comma-separated conditions (default all). Each model loads once, which takes about 5 to 13 minutes; the 96 requests per model then take a few minutes.
+The arguments are, in order: the subset (`smoke` has 3 questions, `core` has 12; default `core`), a quoted space-separated list of keys under `models:` (default `"instruct thinking"`), the run id that names the output directory, and comma-separated conditions (default all). Each model loads once, which takes about 4 to 8 minutes; the 96 requests per model then take 1.5 to 3.5 minutes.
 
 **Without SLURM.** Run from the repository root, with the variables from `slurm/site.env` exported:
 
@@ -103,7 +103,7 @@ Each condition sends the same question text and differs only in the material aro
 
 `av_interleaved` is the primary condition. In an earlier pilot on this model, interleaving was what made timing in the audio match the frames.
 
-The run checks each request's actual token ids before accepting it. It stops with exit code 3 if a modality that should be absent reached the model, or if the interleaving pattern differs from the Hugging Face processor's.
+The run checks each request's actual token ids before accepting it. It stops with exit code 3 if a modality that should be absent reached the model, or if interleaved audio sits more than half a video grid from the Hugging Face processor's position. A request that produced no output is left out of the scores, and the run then exits with code 4.
 
 ## Inputs
 
