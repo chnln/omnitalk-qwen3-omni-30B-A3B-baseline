@@ -11,7 +11,8 @@ data/clips/*
 
 # Site settings and job logs
 slurm/site.env
-logs/
+logs/*
+!logs/.gitkeep
 
 # Environments and caches
 .venv/

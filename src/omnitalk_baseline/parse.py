@@ -5,7 +5,10 @@ import re
 
 LETTERS = "ABCD"
 _BARE = re.compile(r"^[\s(\[*\"'`]*([A-D])[\s)\]*\"'`.:,]*$")
-_EXPLICIT = re.compile(r"\b(?:answer|option|choice)\b[^A-Za-z]{0,12}(?:is\s+)?[(\[*\"'`]*([A-D])\b", re.IGNORECASE)
+# Letters are matched case-sensitively, and "A" not before a lowercase word, so the article in "a blue cup" is not an answer.
+_LETTER = r"[(\[*\"'`]*([B-D]\b|A\b(?!\s+[a-z]))"
+_ANSWER_PHRASE = re.compile(r"(?i:\banswer\b)[^A-Za-z]{0,12}(?:(?i:is)\s+)?" + _LETTER)
+_OPTION_PHRASE = re.compile(r"(?i:\b(?:option|choice)\b)[^A-Za-z]{0,12}(?:(?i:is)\s+)?" + _LETTER)
 _LEADING = re.compile(r"^[\s(\[*\"'`]*([A-D])[)\]*\"'`]*\s*[.:)\-]")
 
 
@@ -23,11 +26,10 @@ def parse_letter(text: str | None, options: dict[str, str] | None = None) -> tup
         return None, "empty"
     if m := _BARE.match(text):
         return m.group(1), "bare_letter"
-    found = [m.group(1).upper() for m in _EXPLICIT.finditer(text)]
-    if found and found[-1] in LETTERS:
-        return found[-1], "explicit"
     if m := _LEADING.match(text):
         return m.group(1), "leading_letter"
+    if m := _ANSWER_PHRASE.search(text) or _OPTION_PHRASE.search(text):
+        return m.group(1), "explicit"
     if options:
         lowered = text.lower()
         hits = [letter for letter, option in options.items() if option.lower() in lowered]

@@ -30,6 +30,8 @@ class FakeMedia:
     ("Answer: C", "C", "explicit"), ("The answer is D.", "D", "explicit"), ("the correct option is (B)", "B", "explicit"),
     ("B. the blue cup", "B", "leading_letter"), ("A man walks in", None, "unparsed"), ("It is the bowl.", "C", "option_text"),
     ("", None, "empty"), (None, None, "empty"),
+    ("The answer is B, not option A.", "B", "explicit"), ("B. The blue cup, rather than option A.", "B", "leading_letter"),
+    ("Not option A; the answer is C.", "C", "explicit"), ("The answer is a green leaf.", None, "unparsed"),
 ])
 def test_parse_letter(text, letter, method):
     assert parse_letter(text, OPTIONS) == (letter, method)
@@ -125,6 +127,22 @@ def test_scoring_counts_unparsed_as_wrong():
     assert rows["av_interleaved"]["correct"] == 1 and rows["video_only"]["unparsed"] == 1
     matrix = item_matrix(records, [{"question_id": "q1"}])
     assert crossmodal_counts(matrix)[0]["av_right_both_single_wrong"] == 1
+
+
+def test_failed_requests_are_reported_and_not_scored():
+    records = [
+        dict(model="m", condition="c", question_id="q1", correct=True, parsed_letter="A", prompt_tokens=10, output_tokens=1, error=None),
+        dict(model="m", condition="c", question_id="q2", correct=False, parsed_letter=None, error="boom"),
+    ]
+    row = accuracy_rows(records)[0]
+    assert (row["n"], row["request_errors"], row["correct"]) == (1, 1, 1)
+    assert item_matrix(records, [{"question_id": "q2"}, {"question_id": "q1"}])["m"]["q2"] == {}
+
+
+def test_a_text_condition_needs_no_media_object():
+    cond = Condition("q", "none", "none")
+    message, _ = build_message(cond, ITEM, None, PROMPTS, None)
+    assert types(message) == ["text"] and build_multi_modal_data(cond, None, 16000) == ({}, {})
 
 
 LOCAL_PATH = re.compile(r"/home/[a-z0-9]+/|/projects/\d+/|/scratch-(?:shared|local)/|/gpfs/|/Users/[A-Za-z0-9]+/|\bprjs\d+\b|\buusei\d+\b")

@@ -12,9 +12,11 @@ def accuracy_rows(records: list[dict]) -> list[dict]:
     for r in records:
         groups[(r["model"], r["condition"])].append(r)
     rows = []
-    for (model, condition), group in groups.items():
-        rows.append({"model": model, "condition": condition, "n": len(group), "correct": sum(r["correct"] for r in group),
-                     "accuracy": round(sum(r["correct"] for r in group) / len(group), 3),
+    for (model, condition), everything in groups.items():
+        group = _answered(everything)
+        rows.append({"model": model, "condition": condition, "n": len(group), "request_errors": len(everything) - len(group),
+                     "correct": sum(r["correct"] for r in group),
+                     "accuracy": round(sum(r["correct"] for r in group) / len(group), 3) if group else None,
                      "unparsed": sum(r.get("parsed_letter") is None for r in group),
                      "hit_max_tokens": sum(bool(r.get("hit_max_tokens")) for r in group),
                      "letters": dict(sorted(Counter(r.get("parsed_letter") or "none" for r in group).items())),
@@ -26,7 +28,7 @@ def accuracy_rows(records: list[dict]) -> list[dict]:
 def breakdown(records: list[dict], questions: dict[str, dict], field: str) -> list[dict]:
     """Accuracy per model, condition and value of a question field such as target or relation."""
     groups = defaultdict(list)
-    for r in records:
+    for r in _answered(records):
         groups[(r["model"], r["condition"], questions[r["question_id"]][field])].append(r["correct"])
     return [{"model": m, "condition": c, field: value, "n": len(hits), "correct": sum(hits)} for (m, c, value), hits in groups.items()]
 
@@ -34,7 +36,7 @@ def breakdown(records: list[dict], questions: dict[str, dict], field: str) -> li
 def item_matrix(records: list[dict], questions: list[dict]) -> dict:
     """model -> question id -> condition -> predicted letter, for the per-question table."""
     matrix: dict = defaultdict(lambda: defaultdict(dict))
-    for r in records:
+    for r in _answered(records):
         matrix[r["model"]][r["question_id"]][r["condition"]] = {"letter": r.get("parsed_letter"), "correct": r["correct"]}
     return {model: {q["question_id"]: dict(by_q.get(q["question_id"], {})) for q in questions} for model, by_q in matrix.items()}
 
@@ -50,6 +52,11 @@ def crossmodal_counts(matrix: dict) -> list[dict]:
     return rows
 
 
+def _answered(records: list[dict]) -> list[dict]:
+    """Requests that produced output. A request that failed says nothing about the model and is reported separately."""
+    return [r for r in records if not r.get("error")]
+
+
 def _mean(values) -> float:
     values = list(values)
     return sum(values) / len(values) if values else 0.0
@@ -59,12 +66,12 @@ def markdown_report(rows: list[dict], matrix: dict, cross: list[dict], condition
     lines = ["# Scores", "",
              "Accuracy is agreement with the provisional, model-written answer key, not with human gold.", "",
              "## Per model and condition", "",
-             "| model | condition | correct / n | unparsed | hit max tokens | predicted letters | mean input tokens | mean output tokens |",
-             "|---|---|---|---|---|---|---|---|"]
+             "| model | condition | correct / n | request errors | unparsed | hit max tokens | predicted letters | mean input tokens | mean output tokens |",
+             "|---|---|---|---|---|---|---|---|---|"]
     order = {c: i for i, c in enumerate(condition_order)}
     for r in sorted(rows, key=lambda x: (x["model"], order.get(x["condition"], 99))):
         letters = " ".join(f"{k}:{v}" for k, v in r["letters"].items())
-        lines.append(f"| {r['model']} | {r['condition']} | {r['correct']}/{r['n']} | {r['unparsed']} | {r['hit_max_tokens']} | {letters} | {r['mean_prompt_tokens']} | {r['mean_output_tokens']} |")
+        lines.append(f"| {r['model']} | {r['condition']} | {r['correct']}/{r['n']} | {r['request_errors']} | {r['unparsed']} | {r['hit_max_tokens']} | {letters} | {r['mean_prompt_tokens']} | {r['mean_output_tokens']} |")
     for model, by_q in matrix.items():
         lines += ["", f"## Per question: {model}", "", "A check mark means the letter agrees with the provisional key; `-` means no letter could be parsed.", "",
                   "| question | " + " | ".join(condition_order) + " |", "|---|" + "---|" * len(condition_order)]

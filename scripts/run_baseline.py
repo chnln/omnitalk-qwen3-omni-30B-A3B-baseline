@@ -3,7 +3,8 @@
 
 One process per model (vLLM does not release the GPUs cleanly). Writes one JSONL file per condition under
 <output-dir>/predictions and meta_<model>.json. Exit code 3 means a check on the prompt failed: a modality that
-should be absent reached the model, or the interleaving differs from the Hugging Face processor.
+should be absent reached the model, or the interleaving differs from the Hugging Face processor. Exit code 4 means
+some requests produced no output; their records carry `error` and scoring leaves them out.
 """
 import argparse
 import json
@@ -27,6 +28,7 @@ from omnitalk_baseline.parse import parse_letter, split_thinking  # noqa: E402
 from omnitalk_baseline.prompts import load_prompts  # noqa: E402
 
 GATE_FAILED = 3
+REQUESTS_FAILED = 4
 
 
 def parse_args():
@@ -73,8 +75,11 @@ def main():
     prompts = load_prompts(ROOT / config["prompt_file"])
     questions = load_questions(args.questions, args.subset, set(filter(None, args.question_ids.split(","))) or None)
     manifest = load_manifest(args.manifest)
-    clip_paths = {q["clip_id"]: resolve_clip(manifest[q["clip_id"]], args.clips_dir, verify=not args.no_verify_clips) for q in questions}
-    subtitles = {q["clip_id"]: load_subtitles(args.subtitles_dir, q["clip_id"]) for q in questions}
+    clip_ids = sorted({q["clip_id"] for q in questions})
+    needs_audio = any(c.audio != "none" for c in conditions.values())
+    needs_media = needs_audio or any(c.visual != "none" for c in conditions.values())
+    clip_paths = {cid: resolve_clip(manifest[cid], args.clips_dir, verify=not args.no_verify_clips) for cid in clip_ids} if needs_media else {}
+    subtitles = {cid: load_subtitles(args.subtitles_dir, cid) for cid in clip_ids} if any(c.subtitles for c in conditions.values()) else {}
     pred_dir = args.output_dir / "predictions"
     pred_dir.mkdir(parents=True, exist_ok=True)
     write_package_list(args.output_dir / "pip_freeze.txt")
@@ -92,7 +97,7 @@ def main():
         meta_path.write_text(json.dumps(meta, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
 
     t0 = time.time()
-    media = {cid: decode_clip(path, config["media"], frame_counts) for cid, path in clip_paths.items()}
+    media = {cid: decode_clip(path, config["media"], frame_counts, needs_audio) for cid, path in clip_paths.items()}
     meta["media_decode_s"] = round(time.time() - t0, 1)
     print(f"decoded {len(media)} clips in {meta['media_decode_s']} s", flush=True)
 
@@ -109,13 +114,14 @@ def main():
     is_thinking = "thinking" in model_cfg["hf_id"].lower()
     references: dict[str, list[int]] = {}
     gate_errors: list[str] = []
+    request_errors: list[str] = []
 
     for name, cond in conditions.items():
         requests, records = [], []
         for q in questions:
-            message, text = build_message(cond, q, media[q["clip_id"]], prompts, subtitles[q["clip_id"]])
+            message, text = build_message(cond, q, media.get(q["clip_id"]), prompts, subtitles.get(q["clip_id"]))
             chat = processor.apply_chat_template(message, add_generation_prompt=True, tokenize=False)
-            data, kwargs = build_multi_modal_data(cond, media[q["clip_id"]], sample_rate)
+            data, kwargs = build_multi_modal_data(cond, media.get(q["clip_id"]), sample_rate)
             request = {"prompt": chat}
             if data:
                 request["multi_modal_data"] = data
@@ -136,6 +142,7 @@ def main():
                     question = questions[question_i]
                     record.update(timing={"batch_wall_s": round(wall, 1), "batch_size": batch}, error=error)
                     if output is None:
+                        request_errors.append(f"{name}/{record['question_id']}: {error}")
                         record.update(parsed_letter=None, parse_method="error", correct=False)
                         f.write(json.dumps(record, ensure_ascii=False) + "\n")
                         continue
@@ -172,7 +179,11 @@ def main():
             print("GATE FAILED:\n" + "\n".join(gate_errors), flush=True)
             sys.exit(GATE_FAILED)
     meta["finished"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    meta["request_errors"] = request_errors
     save_meta()
+    if request_errors:
+        print(f"{len(request_errors)} requests produced no output:\n" + "\n".join(request_errors), flush=True)
+        sys.exit(REQUESTS_FAILED)
 
 
 if __name__ == "__main__":
